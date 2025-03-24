@@ -45,7 +45,7 @@ def apply_bilinear_to_image(image_path, new_height, new_width):
     print("Начат процесс интерполяции ...")
     if is_color:
         for c in range(num_channels):
-            print(f"  Канал {c+1}/{num_channels}...")
+            print(f"Канал {c+1}/{num_channels}...")
             #2D-срез
             z_channel = img_arr[:, :, c]
             zi_channel = bilinear_interpolation(x, y, z_channel, xi, yi)
@@ -60,12 +60,39 @@ def apply_bilinear_to_image(image_path, new_height, new_width):
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 input_image_file = 'test_image.jpg' 
 output_image_file = 'interpolated_image.jpg'
 img_test = Image.open(input_image_file)
 width, height = img_test.size
 
-#Увеличим размеры , например, в 2 раза
+#Увеличим размеры в 2 раза
 new_w = width * 2  
 new_h = height * 2 
 

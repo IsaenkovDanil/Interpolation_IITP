@@ -85,3 +85,15 @@ def bilinear_interpolation(x, y, z, xi, yi):
 
 
 
+def l2_constant_interpolation(x, y, z, xi, yi):
+    print("заглушка:  L2 (константные базисные) ")
+    return bilinear_interpolation(x, y, z, xi, yi)
+
+def l2_linear_interpolation(x, y, z, xi, yi):
+    print("заглушка:  L2 (линейные базисные) ")
+    return bilinear_interpolation(x, y, z, xi, yi)
+
+def l2_mixed_interpolation(x, y, z, xi, yi):
+    print("заглушка:  L2 (смешанные базисные) ")
+    return bilinear_interpolation(x, y, z, xi, yi)
+
