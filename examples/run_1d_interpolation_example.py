@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from interpolation_lib.Interpolation_1D_Methods.py import linear_interpolation_1d
+from interpolation_lib.Interpolation_1D_Methods import linear_interpolation_1d
 
 
 x = np.array([0, 2, 4, 6, 8, 10])

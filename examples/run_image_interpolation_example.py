@@ -42,7 +42,7 @@ def apply_bilinear_to_image(image_path, new_height, new_width):
     else:
         interpolated_arr = np.zeros((new_height, new_width), dtype=float)
 
-    print("Начат процесс интерполяции ...")
+    print("Начат процесс интерполяции")
     if is_color:
         for c in range(num_channels):
             print(f"Канал {c+1}/{num_channels}...")

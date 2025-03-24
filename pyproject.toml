@@ -1,20 +1,85 @@
+# Стандартные метаданные проекта (PEP 621)
 [project]
 name = "interpolation-iitp"
 version = "0.1.0"
-description = ""
+description = "Библиотека для интерполяции изображений и данных" # Добавим описание обратно
 authors = [
-    {name = "IsaenkovDanil",email = "isaenkov.dn@phystech.edu"}
+    {name = "IsaenkovDanil", email = "isaenkov.dn@phystech.edu"}
 ]
+license = "MIT" # Лицензия важна для [project]
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.11" # `>=3.13` может быть слишком строгим, если нет веских причин. 3.11 - хороший компромисс.
+classifiers = [ # Хорошая практика для PyPI
+    "Development Status :: 3 - Alpha", # Или другой статус
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13", # Если поддерживаешь
+    "Topic :: Scientific/Engineering :: Image Processing",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+keywords = ["interpolation", "image processing", "numpy", "scipy", "data analysis"] # Пример ключевых слов
+
 dependencies = [
-    "numpy (>=2.2.4,<3.0.0)",
-    "matplotlib (>=3.10.1,<4.0.0)",
-    "pillow (>=11.1.0,<12.0.0)",
-    "click (>=8.1.8,<9.0.0)"
+    "numpy>=2.0.0,<3.0.0", # Убрал скобки, они не нужны здесь
+    "matplotlib>=3.8.0,<4.0.0", # Можно немного ослабить нижнюю границу, если нет нужды в самых последних фичах
+    "pillow>=10.0.0,<12.0.0",
+    "click>=8.1.0,<9.0.0"
 ]
 
+# Определение пакетов (где находится твой код)
+# Эта секция стандартная (PEP 621) и должна быть здесь.
+# Poetry её тоже понимает. `from = "src"` указывает, что пакеты ищутся в папке src.
+packages = [{ include = "interpolation_lib", from = "source" }] # У тебя папка называется "source", а не "src"!
 
+# Определение скриптов командной строки (у тебя уже есть)
+[project.scripts]
+interpolate = "interpolation_lib.cli:interpolate_image_cli"
+
+# URL проекта (у тебя уже есть)
+[project.urls]
+Repository = "https://github.com/IsaenkovDanil/Interpolation_IITP"
+
+# --- Конфигурация инструментов ---
+
+# Конфигурация Poetry (зависимости для разработки)
+[tool.poetry]
+# name, version, description и т.д. здесь НЕ НУЖНЫ, т.к. они берутся из [project]
+# packages здесь тоже НЕ НУЖНЫ, так как определены в [project]
+# Единственное, что может остаться - это группы зависимостей
+[tool.poetry.group.dev.dependencies]
+ruff = ">=0.4.0" # Используй >= для ruff, т.к. он быстро развивается
+pytest = "^8.0" # Можно указать так для совместимости с версиями 8.x.x
+pytest-cov = "^5.0" # Аналогично
+
+# Конфигурация Ruff (линтер/форматтер)
+[tool.ruff]
+target-version = "py311" # Согласуем с requires-python
+line-length = 88
+[tool.ruff.lint]
+select = ["E", "W", "F", "I", "B", "UP"] # Добавил еще полезных правил
+ignore = []
+fixable = ["ALL"]
+unfixable = []
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space" # Явное указание
+skip-magic-trailing-comma = false # Используем запятые везде, где можно
+line-ending = "auto"
+docstring-code-format = true
+
+# Конфигурация Pytest
+[tool.pytest.ini_options]
+testpaths = ["tests"] # Убедись, что папка 'tests' существует на верхнем уровне проекта
+addopts = "-v --cov=source/interpolation_lib --cov-report=term-missing --cov-report=html" # Путь к коду для покрытия + отчет в html
+
+# --- Система сборки ---
+# Это указывает pip и другим инструментам, как собирать твой проект.
+# Для Poetry это стандартная секция.
 [build-system]
-requires = ["poetry-core>=2.0.0,<3.0.0"]
-build-backend = "poetry.core.masonry.api"
+requires = ["poetry-core>=1.0.0"] # Зависимости, нужные для сборки проекта
+build-backend = "poetry.core.masonry.api" # Указывает, что сборку выполняет Poetry
