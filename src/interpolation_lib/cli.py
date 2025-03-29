@@ -1,14 +1,14 @@
+import os
 import click
-import numpy as np
-from PIL import Image
 import matplotlib.pyplot as plt
-import os 
-from .image_processing import apply_interpolation_to_image 
-from .Interpolation_2D_Methods import ( 
+from PIL import Image
+
+from .image_processing import apply_interpolation_to_image
+from .Interpolation_2D_Methods import (
     bilinear_interpolation,
     l2_constant_interpolation,
     l2_linear_interpolation,
-    l2_mixed_interpolation
+    l2_mixed_interpolation,
 )
 
 INTERPOLATION_ALGORITHMS = {
@@ -17,6 +17,7 @@ INTERPOLATION_ALGORITHMS = {
     "l2_linear": l2_linear_interpolation,
     "l2_mixed": l2_mixed_interpolation,
 }
+
 
 def _show_images(original_arr, interpolated_arr, method_name):
     fig, ax = plt.subplots(1, 2, figsize=(12, 6))
@@ -29,40 +30,47 @@ def _show_images(original_arr, interpolated_arr, method_name):
     plt.tight_layout()
     plt.show()
 
+
 @click.command()
-@click.argument("input_path",type=click.Path(exists=True,dir_okay=False,readable=True))
-@click.argument("x_scale",type=click.FLOAT)
-@click.argument("y_scale",type=click.FLOAT)
+@click.argument(
+    "input_path", type=click.Path(exists=True, dir_okay=False, readable=True)
+)
+@click.argument("x_scale", type=click.FLOAT)
+@click.argument("y_scale", type=click.FLOAT)
 @click.option(
-    "--method", "-m",
-    type=click.Choice(list(INTERPOLATION_ALGORITHMS.keys()),case_sensitive=False),
+    "--method",
+    "-m",
+    type=click.Choice(list(INTERPOLATION_ALGORITHMS.keys()), case_sensitive=False),
     default="bilinear",
     show_default=True,
-    help="Алгоритм интерполяции"
+    help="Алгоритм интерполяции",
 )
 @click.option(
-    "--output", "-o", "output_path",
+    "--output",
+    "-o",
+    "output_path",
     type=click.Path(dir_okay=False, writable=True),
     default=None,
-    help="Путь для сохранения изображения. Если не указан, не сохраняется"
+    help="Путь для сохранения изображения. Если не указан, не сохраняется",
 )
 @click.option(
-    "--show", is_flag=True, default=False,
-    help="Показать исходное и результат после интерполяции"
+    "--show",
+    is_flag=True,
+    default=False,
+    help="Показать исходное и результат после интерполяции",
 )
 def interpolate_image_cli(input_path, x_scale, y_scale, method, output_path, show):
     """
     Интерполирует изображение
     input_path: Путь к исходному файлу изображения
-    x_scale:    Коэффициент масштабирования по ВЫСОТЕ (> 0)
-    y_scale:    Коэффициент масштабирования по ШИРИНЕ (> 0)
+    x_scale,y_scale:    Коэффициенты масштабирования по высоте и шширине 
     """
     click.echo(f"Масштаб: {x_scale}x , {y_scale}x")
     click.echo(f"Метод: {method}")
     if x_scale <= 0 or y_scale <= 0:
         click.secho("Коэффициенты масштабирования должны быть положительными!")
         return
-     
+
     selected_interpolation_func = INTERPOLATION_ALGORITHMS[method.lower()]
     image = Image.open(input_path)
     old_width, old_height = image.size
@@ -73,30 +81,26 @@ def interpolate_image_cli(input_path, x_scale, y_scale, method, output_path, sho
         input_path,
         new_height,
         new_width,
-        selected_interpolation_func, # Передаем выбранную функцию
-        func_name=method # Передаем имя метода для сообщений
+        selected_interpolation_func,  
     )
     if final_interpolated_arr is None:
         click.secho("Error")
         return
-    
+
     click.echo(f"Финальный размер : {final_interpolated_arr.shape}")
 
     if show:
-        click.echo("Показ изображений...")
-        try:
-                original_image = Image.open(input_path)
-                _show_images(original_image, final_interpolated_arr, method)
-        except Exception as e:
-                click.secho(f"Не удалось показать изображения: {e}", fg='yellow')
-
+        click.echo("Показ изображений")
+        original_image = Image.open(input_path)
+        _show_images(original_image, final_interpolated_arr, method)
+    
     if output_path:
         output_dir = os.path.dirname(output_path)
         if output_dir and not os.path.exists(output_dir):
             os.makedirs(output_dir)
-            result_img = Image.fromarray(final_interpolated_arr)
-            result_img.save(output_path)
-            click.secho(f"Изображение сохранено: {output_path}")
+        result_img = Image.fromarray(final_interpolated_arr)
+        result_img.save(output_path)
+        click.secho(f"Изображение сохранено: {output_path}")
 
     else:
         click.echo("Путь не указан")

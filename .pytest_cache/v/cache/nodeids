@@ -1,0 +1,21 @@
+[
+  "tests/test_cli.py::test_cli_bilinear_save",
+  "tests/test_cli.py::test_cli_help_option",
+  "tests/test_cli.py::test_cli_input_file_not_found",
+  "tests/test_cli.py::test_cli_invalid_scale_factor",
+  "tests/test_cli.py::test_cli_show_option",
+  "tests/test_cli.py::test_cli_unknown_method",
+  "tests/test_cli.py::test_cli_without_args",
+  "tests/test_interpolation_1d.py::test_linear_1d_basic_interpolation",
+  "tests/test_interpolation_1d.py::test_linear_1d_known_points",
+  "tests/test_interpolation_1d.py::test_linear_1d_left_outside",
+  "tests/test_interpolation_1d.py::test_linear_1d_multiple_points",
+  "tests/test_interpolation_1d.py::test_linear_1d_right_outside",
+  "tests/test_interpolation_1d.py::test_linear_1d_scalar",
+  "tests/test_interpolation_2d.py::test_apply_interpolation_output_shape_gray",
+  "tests/test_interpolation_2d.py::test_apply_interpolation_output_shape_rgb",
+  "tests/test_interpolation_2d.py::test_bilinear_border",
+  "tests/test_interpolation_2d.py::test_bilinear_center",
+  "tests/test_interpolation_2d.py::test_bilinear_grid",
+  "tests/test_interpolation_2d.py::test_bilinear_larger_grid"
+]
