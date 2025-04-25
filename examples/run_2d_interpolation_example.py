@@ -50,6 +50,8 @@ x_test = np.pi / 4
 y_test = np.pi / 3
 z_test = bilinear_interpolation(x, y, Z, x_test, y_test)
 print(f"Инетрполированное значение ({x_test:.3f}, {y_test:.3f}): {z_test:.4f}")
-print(
-    f"Фактическое значение ({x_test:.3f}, {y_test:.3f}): {sin_cos_function(x_test, y_test):.4f}"
+
+(
+    f"Фактическое значение ({x_test:.3f}, {y_test:.3f}): "
+    f"{sin_cos_function(x_test, y_test):.4f}"
 )

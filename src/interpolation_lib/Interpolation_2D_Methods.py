@@ -52,7 +52,8 @@ def bilinear_interpolation(x, y, z, xi, yi):
             z12 = z[x1_idx, y2_idx]
             z22 = z[x2_idx, y2_idx]
 
-            # Проверка ,если узлы сетки будут совпадать (тогда может произойти деление на 0)
+            # Проверка ,если узлы сетки будут совпадать
+            # (тогда может произойти деление на 0)
             if x1 == x2:
                 if y1 == y2:
                     zi[i, j] = z11
@@ -74,10 +75,12 @@ def bilinear_interpolation(x, y, z, xi, yi):
                 + s * t * z22
             )
 
-            # Здесь вместо этой фомрулы можно использовать просто подряд две одномерные интерполяции:
+            # Здесь вместо этой фомрулы можно использовать
+            #  просто подряд две одномерные интерполяции:
             # z_interp1 = linear_interpolation_1d([x1, x2], [z11, z21], xi[i])
             # z_interp2 = linear_interpolation_1d([x1, x2], [z12, z22], xi[i])
-            # zi[i, j] = linear_interpolation_1d([y1, y2], [z_interp1, z_interp2], yi[j])
+            # zi[i, j] = linear_interpolation_1d([y1, y2],
+            # [z_interp1, z_interp2], yi[j])
 
     if scalar_input:
         return zi[0, 0]

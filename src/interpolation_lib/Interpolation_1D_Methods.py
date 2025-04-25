@@ -1,5 +1,6 @@
 import numpy as np
 
+
 def linear_interpolation_1d(x, y, x_new):
     """
     Одномерная линейная интерполяция.
@@ -11,16 +12,12 @@ def linear_interpolation_1d(x, y, x_new):
     """
     x = np.asarray(x)
     y = np.asarray(y)
-    is_scalar = not isinstance(x_new, (list, tuple, np.ndarray))
-
+    is_scalar = not isinstance(x_new, list | tuple | np.ndarray)
 
     if is_scalar:
         x_new1 = [x_new]
     else:
-         x_new1 = np.asarray(x_new)
-
-
-
+        x_new1 = np.asarray(x_new)
 
     y_new = []
 
@@ -36,14 +33,15 @@ def linear_interpolation_1d(x, y, x_new):
         #  ищем [ x[k], x[k+1] ].
         for k in range(len(x) - 1):
             if x[k] <= xi < x[k + 1]:
-                #  интерполяция внутри интервала: y = y[k] + (x_new1 - x[k]) * (y[k+1] - y[k]) / (x[k+1] - x[k])
+                #  интерполяция внутри интервала:
+                # y = y[k] + (x_new1 - x[k]) * (y[k+1] - y[k]) / (x[k+1] - x[k])
                 y_new.append(y[k] + (xi - x[k]) * (y[k + 1] - y[k]) / (x[k + 1] - x[k]))
                 break
 
     if is_scalar:
-        return y_new[0] 
+        return y_new[0]
     else:
         if isinstance(x_new, np.ndarray):
-             return np.array(y_new)
+            return np.array(y_new)
         else:
-             return y_new
+            return y_new

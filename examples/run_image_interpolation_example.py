@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from PIL import Image
-
+import os
 from interpolation_lib.Interpolation_2D_Methods import bilinear_interpolation
 
 
@@ -14,7 +14,7 @@ def apply_bilinear_to_image(image_path, new_height, new_width):
     Вывод:
         numpy.ndarray: Массив с интерполированным изображением.
     """
-
+    
     print(f"Загрузка изображения: {image_path}")
     img = Image.open(image_path)
     img_arr = np.array(img).astype(float)  # float т.к. элементы могут стать float
@@ -59,8 +59,15 @@ def apply_bilinear_to_image(image_path, new_height, new_width):
     return np.clip(interpolated_arr, 0, 255).astype(np.uint8)
 
 
-input_image_file = "test.png"
-output_image_file = "interpolated_image.png"
+image_filename = 'test_image.png'
+output_filename = 'interpolated_image.png'
+
+script_dir = os.path.dirname(os.path.abspath(__file__))
+input_image_file = os.path.join(script_dir, 'data', image_filename)
+output_image_file = os.path.join(script_dir, 'data', output_filename) 
+
+
+
 img_test = Image.open(input_image_file)
 width, height = img_test.size
 

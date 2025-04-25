@@ -1,4 +1,5 @@
 import os
+
 import click
 import matplotlib.pyplot as plt
 from PIL import Image
@@ -63,7 +64,7 @@ def interpolate_image_cli(input_path, x_scale, y_scale, method, output_path, sho
     """
     Интерполирует изображение
     input_path: Путь к исходному файлу изображения
-    x_scale,y_scale:    Коэффициенты масштабирования по высоте и шширине 
+    x_scale,y_scale:    Коэффициенты масштабирования по высоте и шширине
     """
     click.echo(f"Масштаб: {x_scale}x , {y_scale}x")
     click.echo(f"Метод: {method}")
@@ -81,7 +82,7 @@ def interpolate_image_cli(input_path, x_scale, y_scale, method, output_path, sho
         input_path,
         new_height,
         new_width,
-        selected_interpolation_func,  
+        selected_interpolation_func,
     )
     if final_interpolated_arr is None:
         click.secho("Error")
@@ -93,7 +94,7 @@ def interpolate_image_cli(input_path, x_scale, y_scale, method, output_path, sho
         click.echo("Показ изображений")
         original_image = Image.open(input_path)
         _show_images(original_image, final_interpolated_arr, method)
-    
+
     if output_path:
         output_dir = os.path.dirname(output_path)
         if output_dir and not os.path.exists(output_dir):
