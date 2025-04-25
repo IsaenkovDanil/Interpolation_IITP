@@ -201,9 +201,7 @@ $$\mathbf{M}^{new} \mathbf{\psi}^{new} = \mathbf{M}^{mixed} \mathbf{\psi}^{old}$
 
 *   **Теория:** Частный случай проекции Галеркина. Метод Гранди. Значение в новой ячейке $j$ ($Z_{new, j}$) — средневзвешенное значение старых ячеек $i$ ($Z_{old, i}$), пересекающихся с ней. Вес — площадь пересечения $A_{ij}$.
     
-$$
-Z_{\mathrm{new}, j} = \frac{\sum_{i} Z_{\mathrm{old}, i} \cdot A_{ij}}{\sum_{i} A_{ij}} = \frac{\sum_{i} Z_{\mathrm{old}, i} \cdot \operatorname{Area}(\mathrm{Cell}_{\mathrm{new}, j} \cap \mathrm{Cell}_{\mathrm{old}, i})}{\operatorname{Area}(\mathrm{Cell}_{\mathrm{new}, j})}
-$$
+$$Z_{\mathrm{new}, j} = \frac{\sum_{i} Z_{\mathrm{old}, i} \cdot A_{ij}}{\sum_{i} A_{ij}} = \frac{\sum_{i} Z_{\mathrm{old}, i} \cdot \operatorname{Area}(\mathrm{Cell}_{\mathrm{new}, j} \cap \mathrm{Cell}_{\mathrm{old}, i})}{\operatorname{Area}(\mathrm{Cell}_{\mathrm{new}, j})}$$
     
 *   **Реализация:** `src/interpolation_lib/interpolation_2d.py` -> `l2_constant_interpolation()` (*Сейчас заглушка*)
 
