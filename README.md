@@ -120,7 +120,9 @@ poetry run interpolate path/to/your/image.png 2.0 2.0 -m bilinear -o path/to/out
 ### 1D: Линейная интерполяция
 
 *   **Теория:** Соединяет соседние известные точки $(x_k, y_k)$ и $(x_{k+1}, y_{k+1})$ прямыми линиями. Для точки $x$ между $x_k$ и $x_{k+1}$ значение $y$  на этой прямой:
+
     $$y(x) = y_k + (x - x_k) \frac{y_{k+1} - y_k}{x_{k+1} - x_k}$$
+
 *   **Обозначения:**
     *   $(x_k, y_k), (x_{k+1}, y_{k+1})$: Координаты соседних известных точек.
     *   $x$: Координата точки, в которой ищется значение.
@@ -133,16 +135,16 @@ poetry run interpolate path/to/your/image.png 2.0 2.0 -m bilinear -o path/to/out
     poetry run python examples/run_1d_interpolation_example.py
     ```
     
-    ```markdown
+ 
     ![1D Интерполяция](image_examples/1d_int.png)
-    ```
+
 
 ### 2D: Билинейная интерполяция
 
 *   **Теория:** Используется для данных на прямоугольной сетке. Значение $z$ в точке $(x, y)$ внутри ячейки с углами $(x_1, y_1), (x_2, y_1), (x_1, y_2), (x_2, y_2)$ и значениями $z_{11}, z_{21}, z_{12}, z_{22}$ вычисляется как:
-    $$
-    z(x, y) \approx (1-s)(1-t)z_{11} + s(1-t)z_{21} + (1-s)tz_{12} + stz_{22}
-    $$
+
+    $$z(x, y) \approx (1-s)(1-t)z_{11} + s(1-t)z_{21} + (1-s)tz_{12} + stz_{22}$$
+
     где 
     *   $s = (x - x_1) / (x_2 - x_1)$: Нормированная координата по X внутри ячейки ($0 \le s \le 1$).
     *   $t = (y - y_1) / (y_2 - y_1)$: Нормированная координата по Y внутри ячейки ($0 \le t \le 1$).
@@ -182,13 +184,13 @@ poetry run interpolate path/to/your/image.png 2.0 2.0 -m bilinear -o path/to/out
 
 Пусть $\psi^{old}$ - поле на старой сетке, $\psi^{new}$ - поле на новой сетке. 
 Ищем $\psi^{new}$, минимизируя $\| \psi^{new} - \psi^{old} \|_{L2}$, это эквивалентно условию ортогональности ошибки к пространству базисных функций новой сетки:
-$$
-\int (\psi^{new} - \psi^{old}) N_i^{new} dV = 0 \quad \forall i
-$$
+
+$$\int (\psi^{new} - \psi^{old}) N_i^{new} dV = 0 \quad \forall i$$
+
 где $N_i^{new}$ - базисные функции новой сетки и $\psi^{new} = \sum_j \psi_j^{new} N_j^{new}$ и $\psi^{old} = \sum_k \psi_k^{old} N_k^{old}$, получаем систему линейных алгебраических уравнений (СЛАУ):
-$$
-\mathbf{M}^{new} \mathbf{\psi}^{new} = \mathbf{M}^{mixed} \mathbf{\psi}^{old}
-$$
+
+$$\mathbf{M}^{new} \mathbf{\psi}^{new} = \mathbf{M}^{mixed} \mathbf{\psi}^{old}$$
+
 *   $\mathbf{M}^{new}_{ij} = \int N_i^{new} N_j^{new} dV$ 
 *   $\mathbf{M}^{mixed}_{ik} = \int N_i^{new} N_k^{old} dV$ 
 *   $\mathbf{\psi}^{new}, \mathbf{\psi}^{old}$ (Векторы коэффициентов).
@@ -198,9 +200,9 @@ $$
 ### 2D: Оптимальная по L2 (Константные базисные)
 
 *   **Теория:** Частный случай проекции Галеркина. Метод Гранди. Значение в новой ячейке $j$ ($Z_{new, j}$) — средневзвешенное значение старых ячеек $i$ ($Z_{old, i}$), пересекающихся с ней. Вес — площадь пересечения $A_{ij}$.
-    $$
-    Z_{new, j} = \frac{\sum_{i} Z_{old, i} \cdot A_{ij}}{\sum_{i} A_{ij}} = \frac{\sum_{i} Z_{old, i} \cdot \text{Area}(\text{Cell}_{new, j} \cap \text{Cell}_{old, i})}{\text{Area}(\text{Cell}_{new, j})}
-    $$
+    
+    $$Z_{new, j} = \frac{\sum_{i} Z_{old, i} \cdot A_{ij}}{\sum_{i} A_{ij}} = \frac{\sum_{i} Z_{old, i} \cdot \text{Area}(\text{Cell}_{new, j} \cap \text{Cell}_{old, i})}{\text{Area}(\text{Cell}_{new, j})}$$
+    
 *   **Реализация:** `src/interpolation_lib/interpolation_2d.py` -> `l2_constant_interpolation()` (*Сейчас заглушка*)
 
 
